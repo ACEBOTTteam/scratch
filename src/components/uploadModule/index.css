@@ -1,0 +1,16 @@
+.upload-module-box {
+    width: 30rem;
+    padding: 0 0.5rem;
+}
+
+.top{
+    padding-right: 1.875rem;
+    height: 2.75rem;
+    line-height: 2.75rem;
+}
+
+.upload {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
