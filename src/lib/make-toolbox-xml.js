@@ -746,7 +746,7 @@ const addBlocks = function (isInitialSetup, isStage, targetId, colors) {
         color="${colors.primary}"
         secondaryColour="${colors.tertiary}"
     >
-        <block type="newBlock"></block>
+        <block type="flicker"></block>
         <block type="forword11">
             <value name="SPEED">
                 <shadow type="math_number">

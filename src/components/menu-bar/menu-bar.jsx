@@ -90,6 +90,7 @@ import ninetiesLogo from './nineties_logo.svg';
 import catLogo from './cat_logo.svg';
 import prehistoricLogo from './prehistoric-logo.svg';
 import oldtimeyLogo from './oldtimey-logo.svg';
+import USBIcon from '../../../static/USB.png'
 
 import sharedMessages from '../../lib/shared-messages';
 
@@ -172,7 +173,9 @@ class MenuBar extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            selectMode: 'upload', //选中的模式名称
+            selectMode: 'realTime', //选中的模式名称
+            serialPortsList: [],//串口
+            connected: ''
         }
         bindAll(this, [
             'handleClickNew',
@@ -188,10 +191,19 @@ class MenuBar extends React.Component {
             'restoreOptionMessage',
             'selectRealTimeMode',
             'selectUploadMode',
+            'connectSerialPort'
         ]);
     }
     componentDidMount() {
         document.addEventListener('keydown', this.handleKeyPress);
+
+        //获取串口
+        window.electronAPI.clientSend('getserialPorts').then((res) => {
+            if (res.length) {
+                this.setState({ serialPortsList: res })
+                console.log(res)
+            }
+        })
     }
     componentWillUnmount() {
         document.removeEventListener('keydown', this.handleKeyPress);
@@ -379,14 +391,31 @@ class MenuBar extends React.Component {
 
     //选择实时模式
     selectRealTimeMode() {
-        this.setState({selectMode:'realTime'})
+        this.setState({ selectMode: 'realTime' })
         this.props.getNowSelectMode('realTime')
     }
 
     //选择上传模式
     selectUploadMode() {
-        this.setState({selectMode:'upload'})
+        this.setState({ selectMode: 'upload' })
         this.props.getNowSelectMode('upload')
+    }
+
+    /**
+     * @description: 连接串口
+     */
+    connectSerialPort(e) {
+        if (e.target.dataset.key) {
+            let item = this.state.serialPortsList[e.target.dataset.key]
+            window.electronAPI.clientSend('connect', item.path)
+            window.electronAPI.onUpdateCounter((args) => {
+                if ('connect' === args.type && 'success' === args.data) {
+                    console.log(args,'conncet')
+                    this.setState({ connected: item.friendlyName })
+                }
+            })
+
+        }
     }
 
     render() {
@@ -860,6 +889,37 @@ class MenuBar extends React.Component {
                             ) : []}
                         </React.Fragment>
                     )} */}
+                    <div className={styles.connect}>
+                        <div className={styles.serialPort}>
+                            <span className={styles.name}>{this.state.connected ? this.state.connected : '未连接'}</span>
+                            <div className={styles.pullDown}>
+                                <span>{'<'}</span>
+                                <ul className={styles.nameList} onClick={this.connectSerialPort}>
+                                    {
+                                        !this.state.serialPortsList.length ? (
+                                            <li>没有发现任何设备</li>
+                                        ) : (
+                                            this.state.serialPortsList.map((item, index) => {
+                                                return <li data-key={index} key={index}>
+                                                    <img data-key={index} src={USBIcon} />
+                                                    <span data-key={index}>{item.friendlyName}</span>
+                                                </li>
+                                            })
+                                        )
+                                    }
+                                </ul>
+                            </div>
+                        </div>
+                        <div className={styles.mainboard}>
+                            <span className={styles.name}>ESP32</span>
+                            <div className={styles.pullDown}>
+                                <span>{'<'}</span>
+                                <ul className={styles.nameList}>
+                                    <li>ESP32</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
                     <div className={styles.switchingMode}>
                         <div className={'realTime' === this.state.selectMode ? styles.selected : ''}
                             onClick={this.selectRealTimeMode}

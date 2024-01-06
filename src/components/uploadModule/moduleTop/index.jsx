@@ -1,22 +1,39 @@
-import React, { useState, useCallback } from 'react'
+import React, { useState, useCallback, useRef, useEffect } from 'react'
 import styles from './index.css'
 import classNames from 'classnames'
 
 import CodeMirror from '@uiw/react-codemirror';
 import { materialDark, materialLight } from '@uiw/codemirror-theme-material';
+import { connect } from 'react-redux';
 
-const ModuleTop = () => {
+const ModuleTop = (props) => {
+
+    const codeBoxRef = useRef(null)
 
     //选择手动编辑\自动生成
     const [selectMode, setSelectMode] = useState('auto')
-    //显示的代码
-    const [code, setCode] = useState('66666666')
+    //显示自动生成的代码
+    const [autoCode, setAutoCode] = useState('66666666')
+    //显示手动编辑的代码
+    const [manualCode,setManualCode] = useState('')
+    //是否可以手动编辑
+    const [editable, setEditable] = useState(false)
+    const [codeBoxHeight, setCodeBoxHeight] = useState(0)
+
+    useEffect(() => {
+        let timer = setTimeout(() => {
+            console.log(codeBoxRef.current.clientHeight, codeBoxRef)
+            setCodeBoxHeight(codeBoxRef.current.clientHeight)
+            clearTimeout(timer)
+        }, 0)
+    }, [])
 
     /**
      * @description: 选择自动生成
      */
     const selectAuto = () => {
         setSelectMode('auto')
+        setEditable(false)
     }
 
     /**
@@ -24,8 +41,15 @@ const ModuleTop = () => {
      */
     const selectManual = () => {
         setSelectMode('manual')
+        setEditable(true)
     }
 
+    /**
+     * @description: 上传代码到设备
+     */
+    const uploadCode = ()=>{
+        
+    }
 
     /**
      * @description: 监听CodeMirror编辑器代码变化
@@ -34,7 +58,7 @@ const ModuleTop = () => {
      */
     const onChange = useCallback((val, viewUpdate) => {
         console.log('val:', val);
-        setValue(setCode);
+        setManualCode(val)
     }, []);
 
     return (
@@ -45,10 +69,13 @@ const ModuleTop = () => {
                 <div className={classNames('manual' === selectMode ? styles.select : '', styles.manual)}
                     onClick={selectManual}>手动编辑</div>
             </div>
-            <div className={styles.codeBox}>
+            <div className={styles.codeBox} ref={codeBoxRef}>
                 <CodeMirror
-                    theme={'auto' === selectMode ? materialLight : materialDark} value={code}
+                    theme={'auto' === selectMode ? materialLight : materialDark} 
+                    value={'auto' === selectMode? props.codeData : manualCode}
+                    height={codeBoxHeight + 'px'}
                     extensions={[]}
+                    editable={editable}
                     onChange={onChange}
                 />
             </div>
@@ -56,4 +83,10 @@ const ModuleTop = () => {
     )
 }
 
-export default ModuleTop
+const mapStateToProps = state => ({
+    codeData: state.scratchGui.codeData.codeData
+})
+
+export default connect(
+    mapStateToProps
+)(ModuleTop)

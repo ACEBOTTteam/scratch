@@ -1,15 +1,15 @@
-import {defineMessages, injectIntl, intlShape} from 'react-intl';
+import { defineMessages, injectIntl, intlShape } from 'react-intl';
 import PropTypes from 'prop-types';
-import React from 'react';
-import {connect} from 'react-redux';
+import React, { useEffect, useState } from 'react';
+import { connect } from 'react-redux';
 import VM from 'scratch-vm';
 
 import Box from '../box/box.jsx';
 import Button from '../button/button.jsx';
 import ToggleButtons from '../toggle-buttons/toggle-buttons.jsx';
 import Controls from '../../containers/controls.jsx';
-import {getStageDimensions} from '../../lib/screen-utils';
-import {STAGE_SIZE_MODES} from '../../lib/layout-constants';
+import { getStageDimensions } from '../../lib/screen-utils';
+import { STAGE_SIZE_MODES } from '../../lib/layout-constants';
 
 import fullScreenIcon from './icon--fullscreen.svg';
 import largeStageIcon from './icon--large-stage.svg';
@@ -48,6 +48,10 @@ const messages = defineMessages({
 });
 
 const StageHeaderComponent = function (props) {
+
+    const [isHiddenTip, setIsHiddenTip] = useState(true)
+    const [tipText, setTipText] = useState('正在烧录，请稍后...')
+
     const {
         isFullScreen,
         isPlayerOnly,
@@ -62,6 +66,39 @@ const StageHeaderComponent = function (props) {
     } = props;
 
     let header = null;
+
+    useEffect(() => {
+        /**
+         * @description: 监听烧录状态
+         * @param {*} args.type success 成功，error失败,going烧录中 
+         */
+        window.electronAPI.onUpdateCounter((args) => {
+            let timer = null
+            if ('burner' === args.type) {
+                console.log(args, 'burner')
+                switch (args.data) {
+                    case 'success':
+                        setTipText('烧录成功')
+                        timer = setTimeout(() => {
+                            setIsHiddenTip(true)
+                            clearTimeout(timer)
+                        }, 2000)
+                        break;
+                    case 'error':
+                        setTipText('烧录失败')
+                        timer = setTimeout(() => {
+                            setIsHiddenTip(true)
+                            clearTimeout(timer)
+                        }, 2000)
+                        break;
+                    default:
+                        setTipText('正在烧录，请稍后...')
+                        setIsHiddenTip(false)
+                        break;
+                }
+            }
+        })
+    }, [])
 
     if (isFullScreen) {
         const stageDimensions = getStageDimensions(null, true);
@@ -99,7 +136,7 @@ const StageHeaderComponent = function (props) {
             <Box className={styles.stageHeaderWrapperOverlay}>
                 <Box
                     className={styles.stageMenuWrapper}
-                    style={{width: stageDimensions.width}}
+                    style={{ width: stageDimensions.width }}
                 >
                     <Controls vm={vm} />
                     {stageButton}
@@ -136,6 +173,7 @@ const StageHeaderComponent = function (props) {
             <Box className={styles.stageHeaderWrapper}>
                 <Box className={styles.stageMenuWrapper}>
                     <Controls vm={vm} />
+                    {isHiddenTip ? '' : <div>{tipText}</div>}
                     <div className={styles.stageSizeRow}>
                         {stageControls}
                         <div>

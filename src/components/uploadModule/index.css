@@ -1,6 +1,9 @@
 .upload-module-box {
     width: 30rem;
-    padding: 0 0.5rem;
+    height: 100%;
+    padding: 0 0.5rem 0.5rem;
+    display: flex;
+    flex-direction: column;
 }
 
 .top{

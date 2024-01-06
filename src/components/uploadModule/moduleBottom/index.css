@@ -1,0 +1,153 @@
+.terminal {
+    height: 18.25rem;
+    border-radius: .5rem;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+.codeContainer {
+    flex: 1;
+    color: #fff;
+}
+
+.maneuveringArea {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 3.75rem;
+    width: 100%;
+    background-color: #fff;
+}
+
+.areaLeft {
+    display: flex;
+    align-items: center;
+    margin-left: .625rem;
+}
+
+.areaLeft>div {
+    border: 1px solid #eee;
+    width: 2rem;
+    height: 2rem;
+    padding: .3125rem;
+    border-radius: .125rem;
+    box-sizing: content-box;
+    cursor: pointer;
+}
+
+.middle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.middle>.clearIcon {
+    border: 1px solid #000;
+    border-radius: .1875rem;
+    height: 1.75rem;
+    width: 1.75rem;
+    padding: .3125rem;
+    cursor: pointer;
+}
+
+.clearIcon>img {
+    width: 100%;
+    height: 100%;
+}
+
+.middle>.inp {
+    width: 12.5rem;
+    height: 2rem;
+    border: 1px solid #eee;
+    margin: 0 .625rem 0 1.25rem
+}
+
+.middle>.inp:hover {
+    border-color: #5518cd99;
+}
+
+.inp>input {
+    width: 100%;
+    height: 100%;
+    border: unset;
+}
+
+.middle>button {
+    width: 2.8125rem;
+    height: 2rem;
+    background: #000;
+    color: #fff;
+    cursor: pointer;
+}
+
+.listBtn {
+    width: 3rem;
+    height: 100%;
+    background: #5518cd99;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    position: relative;
+}
+
+.select {
+    position: absolute;
+    bottom: 126%;
+    right: .25rem;
+    background: #fff;
+    padding: .9375rem;
+    border-radius: .625rem;
+}
+
+.select::after,
+.select::before {
+    position: absolute;
+    top: 100%;
+    left: calc(90% - 14px);
+    border: solid transparent;
+    content: "";
+    height: 0;
+    width: 0;
+    pointer-events: none;
+}
+
+.select::after {
+    border-color: transparent;
+    border-top-color: #fff;
+    border-width: 12px;
+    margin-left: -12px;
+}
+
+.select::before {
+    border-color: transparent;
+    border-top-color: #fff;
+    border-width: 15px;
+    margin-left: -15px;
+}
+
+.hidden {
+    display: none;
+}
+
+.decimal{
+    margin-bottom: .625rem;
+    display: flex;
+    align-items: center;
+}
+
+.decimal>img{
+    width: 1.5rem;
+    height: 1.5rem;
+    margin: 0 .3125rem;
+}
+
+.selectGrowp>select {
+    width: 12.5rem;
+    height: 30px;
+    background: #fff;
+    border-radius: 12.5rem;
+    margin-bottom: .3125rem;
+    padding: 0 1.25rem;
+}

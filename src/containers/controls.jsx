@@ -24,6 +24,10 @@ class Controls extends React.Component {
             }
             this.props.vm.greenFlag();
         }
+        console.log(this.props.codeData,'codeData')
+        window.electronAPI.clientSend('send', this.props.codeData).then(res => {
+            console.log(res, '发送成功')
+        })
     }
     handleStopAllClick (e) {
         e.preventDefault();
@@ -59,7 +63,8 @@ Controls.propTypes = {
 const mapStateToProps = state => ({
     isStarted: state.scratchGui.vmStatus.running,
     projectRunning: state.scratchGui.vmStatus.running,
-    turbo: state.scratchGui.vmStatus.turbo
+    turbo: state.scratchGui.vmStatus.turbo,
+    codeData:state.scratchGui.codeData.codeData
 });
 // no-op function to prevent dispatch prop being passed to component
 const mapDispatchToProps = () => ({});

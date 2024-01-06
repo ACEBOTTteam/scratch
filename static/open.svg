@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 13 13">
+  <g id="_16进制亮色打开" data-name="16进制亮色打开" transform="translate(-55 -4)">
+    <g id="组_413" data-name="组 413" transform="translate(8 1)">
+      <g id="矩形_140" data-name="矩形 140" transform="translate(47 3)" fill="#f6bb38" stroke="#f6bb38" stroke-width="1">
+        <rect width="13" height="13" rx="1" stroke="none"/>
+        <rect x="0.5" y="0.5" width="12" height="12" rx="0.5" fill="none"/>
+      </g>
+      <g id="开关" transform="translate(48.05 4.28)">
+        <path id="路径_641" data-name="路径 641" d="M138.038,192h-9.126a1.015,1.015,0,0,0-.913,1.091v8.729a1.015,1.015,0,0,0,.913,1.091h9.126a1.015,1.015,0,0,0,.913-1.091v-8.729A1.015,1.015,0,0,0,138.038,192Zm-9.126,9.82v-8.729h9.126v8.729Z" transform="translate(-128 -192)" fill="#fff"/>
+        <path id="路径_642" data-name="路径 642" d="M325.019,288h-4.563a.554.554,0,0,0,0,1.091h4.563a.554.554,0,0,0,0-1.091Z" transform="translate(-317.262 -285.162)" fill="#fff"/>
+      </g>
+    </g>
+  </g>
+</svg>

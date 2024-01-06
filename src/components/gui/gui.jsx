@@ -61,7 +61,7 @@ const GUIComponent = props => {
     //显示、隐藏舞台区
     const [isHideStage, setIsHideStage] = useState(false)
     //当前选择的模式 默认上传模式
-    const [nowSelectMode, setNowSelectMode] = useState('upload')
+    const [nowSelectMode, setNowSelectMode] = useState('realTime')
 
     const {
         accountNavOpen,
@@ -395,7 +395,7 @@ const GUIComponent = props => {
                                     />
                                 </Box>
                             </Box> :
-                            <Box>
+                            <Box className={isHideStage ? styles.hideStage : ''}>
                                 <UploadModule/>
                             </Box>
                         }
