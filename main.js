@@ -3,9 +3,10 @@ const { SerialPort } = require('serialport');
 const path = require("path");
 
 const burner = require('./static/burner/burner.js')
+const { writeCodeToFile, compile } = require('./src/lib/compile/build.js')
 
-const NodeMonkey = require("node-monkey")
-NodeMonkey()
+// const NodeMonkey = require("node-monkey")
+// NodeMonkey()
 
 let mainWindow = null;
 //判断命令行脚本的第二参数
@@ -100,7 +101,7 @@ const connectSerialPort = (path) => {
     burner(path, callback)
 
     //发送正在烧录提示
-    mainWindow.webContents.send('serialPort', { type: 'burner', data:'going' })
+    mainWindow.webContents.send('serialPort', { type: 'burner', data: 'going' })
 
     //监听数据
     port.on('data', (data) => {
@@ -113,6 +114,7 @@ const connectSerialPort = (path) => {
  * @description: 打开串口
  */
 const openSerialPort = () => {
+    console.log(port, '所连接的串口数据')
     if (port) {
         port.open(function (err) {
             if (err) {
@@ -139,8 +141,8 @@ const callback = (code) => {
         //烧录完成是打开串口
         openSerialPort()
         mainWindow.webContents.send('serialPort', { type: 'burner', data: 'success' })
-    }else{
-        mainWindow.webContents.send('serialPort', { type: 'burner', data:'error' })
+    } else {
+        mainWindow.webContents.send('serialPort', { type: 'burner', data: 'error' })
     }
 }
 
@@ -204,6 +206,9 @@ app.whenReady().then(() => {
             case 'send':
                 sendData(args[1])
                 break
+            case 'sendCode':
+                writeToFile(args[1])
+                break
             default:
                 break;
         }
@@ -213,6 +218,27 @@ app.whenReady().then(() => {
 
 
 });
+
+/**
+ * @description: 保存代码为文件
+ * @param {*} code 代码
+ */
+const writeToFile = (code) => {
+    //编译前先将串口断开，已保证上传时Arduino-cli可以正连接串口并上传。
+    port.close((error) => {
+        if (error) {
+            console.log(error, 'close err')
+            return
+        }
+        console.log('close success')
+        writeCodeToFile(code).then(res => {
+            //保存成功后进行编译
+            compile(port.settings.path,mainWindow)
+        })
+    }) //关闭串口连接
+
+}
+
 // 关闭所有窗口通常会完全退出一个应用程序
 app.on("window-all-closed", () => {
     if (process.platform !== "darwin") {

@@ -1873,6 +1873,11 @@
     "@pnpm/network.ca-file" "^1.0.1"
     config-chain "^1.1.11"
 
+"@replit/codemirror-lang-csharp@^6.2.0":
+  version "6.2.0"
+  resolved "https://registry.npmmirror.com/@replit/codemirror-lang-csharp/-/codemirror-lang-csharp-6.2.0.tgz#bd652f5788ad93579ee0dcab5b163ed2674b974f"
+  integrity sha512-6utbaWkoymhoAXj051mkRp+VIJlpwUgCX9Toevz3YatiZsz512fw3OVCedXQx+WcR0wb6zVHjChnuxqfCLtFVQ==
+
 "@scratch/paper@0.11.20221201200345":
   version "0.11.20221201200345"
   resolved "https://registry.npmmirror.com/@scratch/paper/-/paper-0.11.20221201200345.tgz#a7ebdd5083308c3bb9245b82e60ff6d5d6b86104"

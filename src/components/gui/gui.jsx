@@ -150,6 +150,7 @@ const GUIComponent = props => {
 
     const hideStage = () => {
         setIsHideStage(!isHideStage)
+        console.log(vm,'vmmm')
         //调整工作区大小
         let timer = setTimeout(() => {
             ScratchBlocks.svgResize(ScratchBlocks.mainWorkspace)

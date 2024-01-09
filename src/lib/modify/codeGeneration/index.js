@@ -8,7 +8,7 @@ void setup() {
 void loop() {
     digitalWrite(2, HIGH);  //the blue indicator lights up
     delay(3000);
-    igitalWrite(2, LOW);
+    digitalWrite(2, LOW);
     delay(1000);
 }`
     };

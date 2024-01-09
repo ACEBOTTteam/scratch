@@ -4,6 +4,7 @@ import styles from './index.css'
 import CodeMirror from '@uiw/react-codemirror';
 import { materialDarkInit } from '@uiw/codemirror-theme-material';
 
+
 import { getSerialPort } from '../../../lib/serial/serialPort'
 
 import openSerialPortIcon from '../../../../static/openSerialPort.png'
@@ -51,15 +52,12 @@ const ModuleBottom = () => {
         })
 
         window.electronAPI.onUpdateCounter((args) => {
-            console.log(args, 'port send')
             if ('portData' === args.type) {
-                console.log(args, 'argsss')
                 let data = args.data
                 const decoder = new TextDecoder();
                 data= decoder.decode(data);
                 codeRef.current+=data
                 setCode(codeRef.current)
-                console.log(codeRef.current, 'datadata')
             }
         })
 
